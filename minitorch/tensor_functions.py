@@ -14,7 +14,7 @@ from .autodiff import Context
 from .tensor_ops import SimpleBackend, TensorBackend
 
 if TYPE_CHECKING:
-    from typing import Any, List, Tuple, Optional
+    from typing import Any, List, Tuple, Optional, Union
 
     from .tensor import Tensor
     from .tensor_data import UserIndex, UserShape
@@ -97,7 +97,7 @@ class Add(Function):
 
 class All(Function):
     @staticmethod
-    def forward(ctx: Context, a: Tensor, dim: Tensor = None) -> Tensor:
+    def forward(ctx: Context, a: Tensor, dim: Optional[Tensor] = None) -> Tensor:
         """Return 1 if all are true"""
         if dim is not None:
             return a.f.mul_reduce(a, int(dim.item()))
@@ -178,7 +178,7 @@ class Sum(Function):
             return a.f.add_reduce(a.contiguous().view(int(operators.prod(a.shape))), 0)
 
     @staticmethod
-    def backward(ctx: Context, grad_output: Tensor) -> Tensor:
+    def backward(ctx: Context, grad_output: Tensor) -> Union[Tensor, Tuple[Tensor, Tensor]]:
         (original_tensor, dim) = ctx.saved_values
         if dim is None:
             return original_tensor.expand(grad_output)
@@ -216,15 +216,15 @@ class Permute(Function):
     @staticmethod
     def forward(ctx: Context, a: Tensor, order: Tensor) -> Tensor:
         ctx.save_for_backward(order)
-        order_list = [int(order[i].item()) for i in range(order.size)]
+        order_list = [int(order[i]) for i in range(order.size)]
         return a._new(a._tensor.permute(*order_list))
 
     @staticmethod
-    def backward(ctx: Context, grad_output: Tensor) -> Tensor:
+    def backward(ctx: Context, grad_output: Tensor) -> Union[Tensor, Tuple[Tensor, Tensor]]:
         (order,) = ctx.saved_values
         reverse_order = [0] * order.size
         for i in range(order.size):
-            reverse_order[int(order[i].item())] = i
+            reverse_order[int(order[i])] = i
         return Permute.apply(grad_output, minitorch.tensor(reverse_order)), 0.0
 
 class View(Function):

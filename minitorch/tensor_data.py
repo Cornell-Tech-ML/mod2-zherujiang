@@ -116,10 +116,10 @@ def shape_broadcast(shape1: UserShape, shape2: UserShape) -> UserShape:
     output_shape = []
     if len(shape1) > len(shape2):
         delta = len(shape1) - len(shape2)
-        shape2 = (1,) * delta + shape2
+        shape2 = [] + ([1] * delta) + list(shape2)
     elif len(shape2) > len(shape1):
         delta = len(shape2) - len(shape1)
-        shape1 = (1,) * delta + shape1
+        shape1 = [] + [1] * delta + list(shape1)
     
     for i in range(len(shape1)):
         if shape1[i] == shape2[i]:
