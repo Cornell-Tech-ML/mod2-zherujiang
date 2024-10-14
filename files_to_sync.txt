@@ -3,7 +3,8 @@ minitorch/module.py
 minitorch/autodiff.py
 minitorch/scalar.py
 minitorch/scalar_functions.py
-minitorch/module.py
+minitorch/optim.py
 minitorch/datasets.py
 project/run_manual.py
 project/run_scalar.py
+tests/strategies.py
