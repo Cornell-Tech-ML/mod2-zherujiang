@@ -249,10 +249,12 @@ class Tensor:
 
     @property
     def parents(self) -> Iterable[Variable]:
+        """Returns the parent variables of the current tensor."""
         assert self.history is not None
         return self.history.inputs
 
     def chain_rule(self, d_output: Any) -> Iterable[Tuple[Variable, Any]]:
+        """Applies the chain rule to compute the derivatives of the parent variables."""
         h = self.history
         assert h is not None
         assert h.last_fn is not None
