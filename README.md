@@ -78,14 +78,14 @@
 ### Circle Dataset
 #### Model Parameters
 * Number of points: 150
-* Size of hidden layer: 5
+* Size of hidden layer: 10
 * Learning rate: 0.5
 * Number of epochs: 500
 
 #### Training Result
-* Time per epoch:
-* Correct: 
-* Loss: 
+* Time per epoch: 0.718s
+* Correct: 143/150
+* Loss: 13.5430
 
 <img src="/assets/images/circle.png" width="50%">
 <img src="/assets/images/circle_loss.png" width="50%">
