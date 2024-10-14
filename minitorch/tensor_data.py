@@ -37,10 +37,12 @@ def index_to_position(index: Index, strides: Strides) -> int:
     storage based on strides.
 
     Args:
+    ----
         index : index tuple of ints
         strides : tensor strides
 
     Returns:
+    -------
         Position in storage
 
     """
@@ -58,6 +60,7 @@ def to_index(ordinal: int, shape: Shape, out_index: OutIndex) -> None:
     may not be the inverse of `index_to_position`.
 
     Args:
+    ----
         ordinal: ordinal position to convert.
         shape : tensor shape.
         out_index : return index corresponding to position.
@@ -79,12 +82,14 @@ def broadcast_index(
     removed.
 
     Args:
+    ----
         big_index : multidimensional index of bigger tensor
         big_shape : tensor shape of bigger tensor
         shape : tensor shape of smaller tensor
         out_index : multidimensional index of smaller tensor
 
     Returns:
+    -------
         None
 
     """
@@ -102,13 +107,16 @@ def shape_broadcast(shape1: UserShape, shape2: UserShape) -> UserShape:
     """Broadcast two shapes to create a new union shape.
 
     Args:
+    ----
         shape1 : first shape
         shape2 : second shape
 
     Returns:
+    -------
         broadcasted shape
 
     Raises:
+    ------
         IndexingError : if cannot broadcast
 
     """
@@ -120,7 +128,7 @@ def shape_broadcast(shape1: UserShape, shape2: UserShape) -> UserShape:
     elif len(shape2) > len(shape1):
         delta = len(shape2) - len(shape1)
         shape1 = [] + [1] * delta + list(shape1)
-    
+
     for i in range(len(shape1)):
         if shape1[i] == shape2[i]:
             output_shape.append(shape1[i])
@@ -129,7 +137,7 @@ def shape_broadcast(shape1: UserShape, shape2: UserShape) -> UserShape:
                 output_shape.append(max(shape1[i], shape2[i]))
             else:
                 raise IndexingError(f"Cannot broadcast shapes {shape1} and {shape2}")
-    return tuple(output_shape)     
+    return tuple(output_shape)
 
 
 def strides_from_shape(shape: UserShape) -> UserStrides:
@@ -184,7 +192,8 @@ class TensorData:
     def is_contiguous(self) -> bool:
         """Check that the layout is contiguous, i.e. outer dimensions have bigger strides than inner dimensions.
 
-        Returns:
+        Returns
+        -------
             bool : True if contiguous
 
         """
@@ -253,9 +262,11 @@ class TensorData:
         """Permute the dimensions of the tensor.
 
         Args:
+        ----
             *order: a permutation of the dimensions
 
         Returns:
+        -------
             New `TensorData` with the same storage and a new dimension order.
 
         """

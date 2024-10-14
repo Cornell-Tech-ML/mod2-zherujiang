@@ -83,7 +83,7 @@ class Linear(minitorch.Module):
             .sum(dim=1)
             .view(x.shape[0], self.bias.value.shape[0])
         ) + self.bias.value
-    
+
 
 def default_log_fn(epoch, total_loss, correct, losses):
     """
@@ -178,7 +178,7 @@ class TensorTrain:
                 y2 = minitorch.tensor(data.y)
                 correct = int(((out.detach() > 0.5) == y2).sum()[0])
                 log_fn(epoch, total_loss, correct, losses)
-        
+
 if __name__ == "__main__":
     PTS = 50
     HIDDEN = 2

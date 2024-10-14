@@ -124,7 +124,7 @@ class Mul(Function):
         """Compute the gradient for the multiplication operation."""
         t1, t2 = ctx.saved_values
         return grad_output * t2, grad_output * t1
-    
+
 
 class Sigmoid(Function):
     @staticmethod
@@ -182,8 +182,8 @@ class Exp(Function):
         """Compute the gradient for the exponential operation."""
         (exp,) = ctx.saved_values
         return grad_output * exp
-    
-    
+
+
 class Sum(Function):
     @staticmethod
     def forward(ctx: Context, a: Tensor, dim: Optional[Tensor] = None) -> Tensor:
@@ -195,7 +195,9 @@ class Sum(Function):
             return a.f.add_reduce(a.contiguous().view(int(operators.prod(a.shape))), 0)
 
     @staticmethod
-    def backward(ctx: Context, grad_output: Tensor) -> Union[Tensor, Tuple[Tensor, Tensor]]:
+    def backward(
+        ctx: Context, grad_output: Tensor
+    ) -> Union[Tensor, Tuple[Tensor, Tensor]]:
         """Compute the gradient for the sum operation."""
         (original_tensor, dim) = ctx.saved_values
         if dim is None:
@@ -244,13 +246,16 @@ class Permute(Function):
         return a._new(a._tensor.permute(*order_list))
 
     @staticmethod
-    def backward(ctx: Context, grad_output: Tensor) -> Union[Tensor, Tuple[Tensor, float]]:
+    def backward(
+        ctx: Context, grad_output: Tensor
+    ) -> Union[Tensor, Tuple[Tensor, float]]:
         """Compute the gradient for the permute operation."""
         (order,) = ctx.saved_values
         reverse_order = [0] * order.size
         for i in range(order.size):
             reverse_order[int(order[i])] = i
         return Permute.apply(grad_output, minitorch.tensor(reverse_order)), 0.0
+
 
 class View(Function):
     @staticmethod

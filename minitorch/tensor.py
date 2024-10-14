@@ -199,6 +199,7 @@ class Tensor:
 
     def zeros(self, shape: Optional[UserShape] = None) -> Tensor:
         """Creates a tensor filled with zeros."""
+
         def zero(shape: UserShape) -> Tensor:
             return Tensor.make(
                 [0.0] * int(operators.prod(shape)), shape, backend=self.backend
@@ -300,16 +301,16 @@ class Tensor:
     def size(self) -> int:
         """Returns the total number of elements in the tensor."""
         return int(operators.prod(self.shape))
-    
+
     @property
     def dims(self) -> int:
         """Returns the number of dimensions of the tensor."""
         return len(self.shape)
-    
+
     def __add__(self, b: TensorLike) -> Tensor:
         """Adds two tensors element-wise."""
         return Add.apply(self, self._ensure_tensor(b))
-    
+
     def __radd__(self, b: TensorLike) -> Tensor:
         """Performs reverse addition between tensors."""
         return Add.apply(self._ensure_tensor(b), self)
@@ -317,65 +318,65 @@ class Tensor:
     def __sub__(self, b: TensorLike) -> Tensor:
         """Subtracts two tensors element-wise."""
         return Add.apply(self, Neg.apply(self._ensure_tensor(b)))
-    
+
     def __mul__(self, b: TensorLike) -> Tensor:
         """Multiplies two tensors element-wise."""
         return Mul.apply(self, self._ensure_tensor(b))
-    
+
     def __rmul__(self, b: TensorLike) -> Tensor:
         """Performs reverse multiplication between tensors."""
         return Mul.apply(self._ensure_tensor(b), self)
-    
+
     def __lt__(self, b: TensorLike) -> Tensor:
         """Performs element-wise less than comparison."""
         return LT.apply(self, self._ensure_tensor(b))
-    
+
     def __eq__(self, b: TensorLike) -> Tensor:
         """Performs element-wise equality comparison."""
         return EQ.apply(self, self._ensure_tensor(b))
-    
+
     def __gt__(self, b: TensorLike) -> Tensor:
         """Performs element-wise greater than comparison."""
         return LT.apply(self._ensure_tensor(b), self)
-    
+
     def __neg__(self) -> Tensor:
         """Negates the tensor element-wise."""
         return Neg.apply(self)
-    
+
     def all(self, dim: Optional[int] = None) -> Tensor:
         """Returns True if all elements in the tensor are True."""
         if dim is None:
             return All.apply(self)
         else:
             return All.apply(self, self._ensure_tensor(dim))
-    
+
     def is_close(self, b: TensorLike) -> Tensor:
         """Checks if two tensors have close values element-wise."""
         return IsClose.apply(self, self._ensure_tensor(b))
-    
+
     def sigmoid(self) -> Tensor:
         """Applies the sigmoid function element-wise."""
         return Sigmoid.apply(self)
-    
+
     def relu(self) -> Tensor:
         """Applies the ReLU function element-wise."""
         return ReLU.apply(self)
-    
+
     def log(self) -> Tensor:
         """Computes the natural logarithm of the tensor element-wise."""
         return Log.apply(self)
-    
+
     def exp(self) -> Tensor:
         """Computes the exponential of the tensor element-wise."""
         return Exp.apply(self)
-    
+
     def sum(self, dim: Optional[int] = None) -> Tensor:
         """Computes the sum of all elements in the tensor or along a dimension."""
         if dim is None:
             return Sum.apply(self)
         else:
             return Sum.apply(self, self._ensure_tensor(dim))
-    
+
     def mean(self, dim: Optional[int] = None) -> Tensor:
         """Computes the mean of all elements in the tensor or along a dimension."""
         sum_result = self.sum(dim)
@@ -383,12 +384,11 @@ class Tensor:
             return sum_result / self.size
         else:
             return sum_result / self.shape[dim]
-    
+
     def permute(self, *order: int) -> Tensor:
         """Permutes the dimensions of the tensor."""
         return Permute.apply(self, tensor(list(order)))
-    
-    
+
     def view(self, *shape: int) -> Tensor:
         """Returns a new tensor with the same data but different shape."""
         return View.apply(self, tensor(list(shape)))
