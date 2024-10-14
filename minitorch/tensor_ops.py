@@ -204,6 +204,7 @@ class SimpleOps(TensorOps):
         f = tensor_reduce(fn)
 
         def ret(a: "Tensor", dim: int) -> "Tensor":
+            """Applies the reduction function to the tensor along the specified dimension."""
             out_shape = list(a.shape)
             out_shape[dim] = 1
 
@@ -261,6 +262,7 @@ def tensor_map(
         in_shape: Shape,
         in_strides: Strides,
     ) -> None:
+        """Applies the mapping function to the input tensor and stores the result in the output tensor."""
         # Task 2.3.
         
         # broadcasted version
@@ -315,6 +317,7 @@ def tensor_zip(
         b_shape: Shape,
         b_strides: Strides,
     ) -> None:
+        """Applies the zipping function to two input tensors and stores the result in the output tensor."""
         # 2.3.
         out_index = np.array(out_shape)
         a_index = np.array(a_shape)
@@ -356,6 +359,7 @@ def tensor_reduce(
         a_strides: Strides,
         reduce_dim: int,
     ) -> None:
+        """Applies the reduction function to the input tensor along the specified dimension and stores the result in the output tensor."""
         # Task 2.3.
         rdim_len = a_shape[reduce_dim]
         out_index = np.array(out_shape)
