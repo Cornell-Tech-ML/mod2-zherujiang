@@ -46,14 +46,14 @@
 ### Split Dataset
 #### Model Parameters
 * Number of points: 150
-* Size of hidden layer: 5
+* Size of hidden layer: 4
 * Learning rate: 0.1
 * Number of epochs: 500
 
 #### Training Result
-* Time per epoch: 0.251s
-* Correct: 118/150
-* Loss: 59.66
+* Time per epoch: 0.209s
+* Correct: 146/150
+* Loss: 36.9434
 
 <img src="/assets/images/split.png" width="50%">
 <img src="/assets/images/split_loss.png" width="50%">
@@ -61,49 +61,16 @@
 
 ### XoR Dataset
 #### Model Parameters
-* Number of points: 150
-* Size of hidden layer: 5
-* Learning rate: 0.5
+* Number of points: 138
+* Size of hidden layer: 6
+* Learning rate: 0.1
 * Number of epochs: 500
 
 #### Training Result
-* Time per epoch: 0.266s
-* Correct: 143/150
-* Loss: 17.8042
+* Time per epoch: 0.376s
+* Correct: 130/138
+* Loss: 44.8873
 
 <img src="/assets/images/xor.png" width="50%">
 <img src="/assets/images/xor_loss.png" width="50%">
 
-
-### Circle Dataset
-#### Model Parameters
-* Number of points: 150
-* Size of hidden layer: 10
-* Learning rate: 0.5
-* Number of epochs: 500
-
-#### Training Result
-* Time per epoch: 0.718s
-* Correct: 143/150
-* Loss: 13.5430
-
-<img src="/assets/images/circle.png" width="50%">
-<img src="/assets/images/circle_loss.png" width="50%">
-
-
-### Spiral Dataset
-#### Model Parameters
-* Number of points: 150
-* Size of hidden layer: 16
-* Learning rate: 0.1
-* Number of epochs: 450
-
-#### Training Result
-* Time per epoch: 1.735s
-* Correct: 88/150
-* Loss: 100.1771
-
-After I tried differnt hyperparameters, I found that the model is not able to fit the data well. The loss is not decreasing over time so I stopped the training before it reaches 500 epochs.
-
-<img src="/assets/images/spiral.png" width="50%">
-<img src="/assets/images/spiral_loss.png" width="50%">
